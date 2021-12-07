@@ -35,7 +35,9 @@ const MessageItem = styled.div`
 `
 
 const MessageText = styled.div<{$ownedByCurrentUser: boolean}>`
-    float: right;
+    float: ${({ $ownedByCurrentUser }) => $ownedByCurrentUser ? 'left' : 'right'};
+    border-radius: 5px;
+    padding: 10px;
     text-align: right;
     margin: 0 1rem 0 0;
     background-color: #fafafa;
@@ -65,7 +67,7 @@ const TextInput = styled.input`
 `
 
 const SendMessageButton = styled.div`
-  float: right;
+    float: right;
     position: relative;
     width: 40px;
     height: 40px;
@@ -88,6 +90,13 @@ const SendMessageButton = styled.div`
       transform: rotate(60deg);
     }
 `
+
+const SendMessageHolder = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 50vw;
+`
+
 const ChatRoom = () => {
   const { rickId, rickName } = useParams()
   const { messages, sendMessage } = useChat(rickId)
@@ -117,20 +126,22 @@ const ChatRoom = () => {
         </MessagesContainer>
         </ChatRoomContainer>
 
-            <TextInput
-              type="text"
-              placeholder="Text message"
-              value={newMessage}
-              onChange={handleNewMessageChange}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') {
-                  handleSendMessage()
-                }
-              }}
-            />
-            <SendMessageButton onClick={handleSendMessage}>
-              <FontAwesomeIcon icon={faPaperPlane} />
-            </SendMessageButton>
+            <SendMessageHolder>
+              <TextInput
+                type="text"
+                placeholder="Text message"
+                value={newMessage}
+                onChange={handleNewMessageChange}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    handleSendMessage()
+                  }
+                }}
+              />
+              <SendMessageButton onClick={handleSendMessage}>
+                <FontAwesomeIcon icon={faPaperPlane} />
+              </SendMessageButton>
+            </SendMessageHolder>
     </>
   )
 }
