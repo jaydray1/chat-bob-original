@@ -2,18 +2,33 @@ import React from 'react'
 import { useQuery, gql } from '@apollo/client'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
+import WebFont from 'webfontloader'
+
+const RickHeader = styled.div`
+  text-align: center;
+`
+
+const RickWelcome = styled.p`
+  font-size: 110px;
+`
+
+const RickSubText = styled.p`
+  font-size: 20px;
+`
 
 const RickPic = styled.img`
-  height: 50%;
+  height: 35%;
   border-radius: 50%;
   transform: scale(1);
   transition: all 0.9s ease 0s;
+  margin-top: 55px;
 `
 
 const RickName = styled.p`
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
   font-size: 22px;
   transition: all 0.9s ease 0s;
+  color: black;
 `
 
 const RickCard = styled(Link)`
@@ -21,14 +36,20 @@ const RickCard = styled(Link)`
     border: 2px solid red;
     background-color: #f7f5ec;
     cursor: pointer;
-    margin: 20px;
+    margin: 2px;
+    border-radius: 10px;
+    text-decoration: none;
+    height: 255px;
+    :visited {
+      color: inherit;
+    }
     :hover ${RickPic} {
       box-shadow: 0 0 0 14px #f7f5ec;
       transform: scale(0.7);
     }
     :hover ${RickName} {
       line-height: normal;
-      font-size: 32px;
+      font-size: 24px;
     }
 `
 
@@ -38,6 +59,7 @@ const RickRow = styled.div`
   flex-direction: row;
   flex-wrap: wrap;
   text-align: center;
+  justify-content: center;
 `
 
 
@@ -67,12 +89,16 @@ query {
 
 const RickMortyPage = () => {
   const [merchantName, setMerchantName] = React.useState<number>()
-
-    const handleMerchantCardClicked = (rickId: number) => {
-        setMerchantName(rickId)
-    }
     
     const { data, loading, error } = useQuery<CharacterListData>(GET_CHARACTERS)
+
+    React.useEffect(() => {
+      WebFont.load({
+        google: {
+          families: ['Liu Jian Mao Cao']
+        }
+      })
+    }, [])
 
     if (loading) {
         return <div>LOADING</div>
@@ -83,18 +109,20 @@ const RickMortyPage = () => {
     }
     
     return (
+      <>
+      <RickHeader>
+        <RickWelcome style={{fontFamily: 'Liu Jian Mao Cao'}}>Welcome to Rick</RickWelcome>
+        <RickSubText>Please choose the Rick with whom you need to speak.</RickSubText>
+      </RickHeader>
         <RickRow>
-            These could be some things
            {data && data.characters.results.map((char) => (
-             <RickCard to={`/${char.id}`} key={char.id}>
+             <RickCard to={`/${char.id}/${char.name}`} key={char.id}>
                   <RickPic src={`${char.image}`} alt={`${char.name}`} />
                   <RickName>{char.name}</RickName>
-                  change here two two
-                  {/* <p>{char.name}</p>
-                  <img src={`${char.image}`} alt={`${char.name}`}/> */}
              </RickCard>
            ))}
         </RickRow>
+      </>
     )
     }
 

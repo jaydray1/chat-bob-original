@@ -12,7 +12,7 @@ const ChatRoomContainer = styled.div`
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
     background-color: #fff;
-    flex-direction: column-reverse;
+    flex-direction: column;
     overflow-y: auto;
 `
 
@@ -89,7 +89,7 @@ const SendMessageButton = styled.div`
     }
 `
 const ChatRoom = () => {
-  const { rickId } = useParams()
+  const { rickId, rickName } = useParams()
   const { messages, sendMessage } = useChat(rickId)
   const [newMessage, setNewMessage] = React.useState('')
 
@@ -105,7 +105,7 @@ const ChatRoom = () => {
   return (
     <>
       <ChatRoomContainer>
-        <h1>Rick Type: {rickId}</h1>
+        <h1>You are chatting with {rickName}</h1>
         <MessagesContainer>
             {messages.map((message, i) => (
               <MessageItem key={i}>

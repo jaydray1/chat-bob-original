@@ -12,7 +12,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/:rickId" element={<ChatRoom />} />
+          <Route path="/:rickId/:rickName" element={<ChatRoom />} />
         </Routes>
       </Router>
     </ApolloProvider>
