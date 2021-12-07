@@ -88,7 +88,7 @@ const RickMortyPage = () => {
                <RickCard key={char.id}> 
                   <RickPic src={`${char.image}`} alt={`${char.name}`} />
                   <RickName>{char.name}</RickName>
-                  change here
+                  change here two two
                   {/* <p>{char.name}</p>
                   <img src={`${char.image}`} alt={`${char.name}`}/> */}
                </RickCard>
