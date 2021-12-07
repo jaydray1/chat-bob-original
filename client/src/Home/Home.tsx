@@ -1,6 +1,7 @@
 import React from 'react'
 import { useQuery, gql } from '@apollo/client'
 import styled from 'styled-components'
+import { Link } from 'react-router-dom'
 
 const RickPic = styled.img`
   height: 50%;
@@ -15,7 +16,7 @@ const RickName = styled.p`
   transition: all 0.9s ease 0s;
 `
 
-const RickCard = styled.div`
+const RickCard = styled(Link)`
     flex: 0 1 calc(25% - 1em);
     border: 2px solid red;
     background-color: #f7f5ec;
@@ -85,13 +86,13 @@ const RickMortyPage = () => {
         <RickRow>
             These could be some things
            {data && data.characters.results.map((char) => (
-               <RickCard key={char.id}> 
+             <RickCard to={`/${char.id}`} key={char.id}>
                   <RickPic src={`${char.image}`} alt={`${char.name}`} />
                   <RickName>{char.name}</RickName>
                   change here two two
                   {/* <p>{char.name}</p>
                   <img src={`${char.image}`} alt={`${char.name}`}/> */}
-               </RickCard>
+             </RickCard>
            ))}
         </RickRow>
     )

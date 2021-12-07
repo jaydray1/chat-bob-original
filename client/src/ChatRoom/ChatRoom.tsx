@@ -1,7 +1,14 @@
 import React from 'react'
 import { useParams } from 'react-router';
 import useChat from '../hooks/useChat'
-// import "./ChatRoom.css";
+import styled from 'styled-components'
+
+const ChatRoomContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+`
 
 
 const ChatRoom = () => {
