@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import socketIOClient, { Socket } from "socket.io-client";
 
-const NEW_CHAT_MESSAGE_EVENT = "newChatMessage"; // Name of the event
-const SOCKET_SERVER_URL = "http://localhost:4000";
+const NEW_CHAT_MESSAGE_EVENT = "newChatMessage" // Name of the event
+const SOCKET_SERVER_URL = "http://localhost:4000"
 
 const useChat = (rickId) => {
-  const [messages, setMessages] = useState([]); // Sent and received messages
-  const socketRef = useRef<Socket>();
+  const [messages, setMessages] = useState([]) // Sent and received messages
+  const socketRef = useRef<Socket>()
 
   useEffect(() => {
     

@@ -3,6 +3,8 @@ import { useQuery, gql } from '@apollo/client'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import WebFont from 'webfontloader'
+//@ts-ignore
+import rickMorty from '../../public/rickMorty.mp3'
 
 const RickHeader = styled.div`
   text-align: center;
@@ -33,13 +35,23 @@ const RickName = styled.p`
 
 const RickCard = styled(Link)`
     flex: 0 1 calc(25% - 1em);
-    border: 2px solid red;
     background-color: #f7f5ec;
     cursor: pointer;
-    margin: 2px;
+    margin: 6px;
     border-radius: 10px;
     text-decoration: none;
     height: 255px;
+    outline: 3px solid limegreen;
+    opacity: 1;
+    :nth-child(3n + 3) {
+      cursor: not-allowed;
+      user-select: none;
+      opacity: 0.4;
+      outline: 3px solid orangered !important;
+      :hover {
+        cursor: not-allowed;
+      }
+    }
     :visited {
       color: inherit;
     }
@@ -88,9 +100,13 @@ query {
 `
 
 const RickMortyPage = () => {
-  const [merchantName, setMerchantName] = React.useState<number>()
+  const audio = new Audio("./rickMorty.mp3")
     
     const { data, loading, error } = useQuery<CharacterListData>(GET_CHARACTERS)
+
+    const start = () => {
+      audio.play()
+    }
 
     React.useEffect(() => {
       WebFont.load({

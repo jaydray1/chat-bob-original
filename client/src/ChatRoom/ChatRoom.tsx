@@ -3,22 +3,13 @@ import { useParams } from 'react-router';
 import useChat from '../hooks/useChat'
 import styled from 'styled-components'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
 
 const ChatRoomContainer = styled.div`
     display: flex;
     height: 400px;
-    padding: 1rem;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
-    background-color: #fff;
-    flex-direction: column;
-    overflow-y: auto;
-`
-
-const MessagesContainer = styled.div`
-    display: flex;
-    height: 400px;
+    width: 50%;
     padding: 1rem;
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
@@ -33,6 +24,19 @@ const MessageItem = styled.div`
     animation: fadeNewMessage 0.5s;
     animation-fill-mode: forwards;
 `
+
+const MessagesContainer = styled.div`
+    display: flex;
+    height: 400px;
+    width: 80%;
+    padding: 1rem;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    background-color: #fff;
+    flex-direction: column;
+    overflow-y: auto;
+`
+
 
 const MessageText = styled.div<{$ownedByCurrentUser: boolean}>`
     float: ${({ $ownedByCurrentUser }) => $ownedByCurrentUser ? 'left' : 'right'};
@@ -97,27 +101,44 @@ const SendMessageHolder = styled.div`
   width: 50vw;
 `
 
+const BackLink = styled(Link)`
+  text-decoration: none;
+  :visited {
+    color: inherit;
+  }
+`
+
 const ChatRoom = () => {
   const { rickId, rickName } = useParams()
   const { messages, sendMessage } = useChat(rickId)
   const [newMessage, setNewMessage] = React.useState('')
+  const chatBoxRef = React.useRef<HTMLDivElement>()
 
   const handleNewMessageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNewMessage(event.target.value)
-  };
+  }
 
   const handleSendMessage = () => {
     sendMessage(newMessage)
     setNewMessage('')
-  };
+  }
+
+  React.useEffect(() => {
+    if (messages.length > 0) {
+      chatBoxRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' })
+    }
+  }, [messages])
 
   return (
     <>
       <ChatRoomContainer>
+      <BackLink to="/" >
+        <FontAwesomeIcon icon={faArrowLeft} />
+      </BackLink>
         <h1>You are chatting with {rickName}</h1>
         <MessagesContainer>
             {messages.map((message, i) => (
-              <MessageItem key={i}>
+              <MessageItem key={i} ref={chatBoxRef}>
                 <MessageText $ownedByCurrentUser={message.ownedByCurrentUser}>
                   {message.body}
                 </MessageText>
